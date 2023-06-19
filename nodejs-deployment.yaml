@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodejs
+  template:
+    metadata:
+      labels:
+        app: nodejs
+    spec:
+      containers:
+        - name: nodejs
+          image: reshmatreesajacob/noteworx-react-mongodb-nodejs:latest
+          ports:
+            - containerPort: 9000
+          volumeMounts:
+            - name: mongodb-data
+              mountPath: /app/Server/data
+
+      volumes:
+        - name: mongodb-data
+          persistentVolumeClaim:
+            claimName: mongodb-data-pvc
